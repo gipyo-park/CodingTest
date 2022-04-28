@@ -7,6 +7,34 @@ package baekjoon.backtracking.q2580;
  */
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+class Point {
+    private int x;
+    private int y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+}
 
 public class Main {
     static BufferedReader br;
@@ -15,7 +43,7 @@ public class Main {
     static int[][] sudoku;
 
     static int probCnt, solveCnt;
-    static String[] prob;
+    static List<Point> prob;
 
     static boolean isEnd;
 
@@ -38,8 +66,8 @@ public class Main {
             return;
         }
 
-        int x = Integer.parseInt(prob[solveCnt].split(",")[0]);
-        int y = Integer.parseInt(prob[solveCnt].split(",")[1]);
+        int x = prob.get(solveCnt).getX();
+        int y = prob.get(solveCnt).getY();
 
         for(int j=1; j<=9; j++) {
             boolean chkA = true;
@@ -94,7 +122,8 @@ public class Main {
         sudoku = new int[9][9];
 
         String[] in;
-        String tmp = "";
+
+        prob = new ArrayList<>();
 
         for(int i=0; i<9; i++) {
             in = br.readLine().split(" ");
@@ -103,13 +132,12 @@ public class Main {
                 sudoku[i][j] = Integer.parseInt(in[j]);
 
                 if(sudoku[i][j] == 0) {
-                    tmp += i + "," + j + " ";
+                    prob.add(new Point(i, j));
+
                     probCnt++;
                 }
             }
         }
-
-        prob = tmp.split(" ");
 
         doBackTracking();
 
